@@ -1,0 +1,10 @@
+lib: () {
+	"gcc" "-c" "stronk.c" "-o" "stronklib.o",
+	"ar" "rcs" "libstronk.a" "stronklib.o",
+}
+main: () {
+	"gcc" "stronk.c" "main.c" "-o" "main",
+}
+test: (lib, ) {
+	"gcc" "test.c" "libstronk.a" "-o" "test",
+}
