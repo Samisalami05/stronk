@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "string.h"
+#include "stronk.h"
 
 #define PTR_SIZE 8
 
-struct string {
+struct stronk {
 	union {
 		char* heap_ptr;
 		char inline_arr[8];
@@ -15,26 +15,26 @@ struct string {
 	uint32_t allocated;
 };
 
-string* string_init() {
-	string* s = malloc(sizeof(string));
+stronk* stronk_init() {
+	stronk* s = malloc(sizeof(stronk));
 	s->length = 0;
 	s->allocated = 0;
 	return s;
 }
 
-char *get_arr(string *s) {
+char *get_arr(stronk *s) {
 	if (s->allocated <= PTR_SIZE) {
 		return &s->arr.inline_arr[0];
 	} else return s->arr.heap_ptr;
 }
 
 
-void string_deinit(string* s) {
+void stronk_deinit(stronk* s) {
 	if (get_arr(s) == s->arr.heap_ptr) free(s->arr.heap_ptr);
 	free(s);
 }
 
-void resize(string *s, size_t new_size) {
+void resize(stronk *s, size_t new_size) {
 	if (new_size <= 8) return; // use inline
 
 	size_t before = s->allocated;
@@ -57,7 +57,7 @@ void resize(string *s, size_t new_size) {
 	}
 }
 
-void string_add(string* s, char* b, int l) {
+void stronk_add(stronk* s, char* b, int l) {
 	resize(s, s->length+l);
 	char *arr = get_arr(s);
 	for (int i = 0; i < l; i++) {
@@ -66,18 +66,18 @@ void string_add(string* s, char* b, int l) {
 	s->length += l;
 }
 
-void string_add_cstr(string* s, char* b) {
-	string_add(s, b, strlen(b));
+void stronk_add_cstr(stronk* s, char* b) {
+	stronk_add(s, b, strlen(b));
 }
 
-char* string_get_temp_cstr(string* s) {
+char* stronk_get_temp_cstr(stronk* s) {
 	resize(s, s->length+1);
 	char *arr = get_arr(s);
 	arr[s->length] = 0;
 	return arr;
 }
 
-char* string_alloc_cstr(string* s) {
+char* stronk_alloc_cstr(stronk* s) {
 	char *arr = get_arr(s);
 
 	char* copy = malloc(s->length + 1);
@@ -86,11 +86,11 @@ char* string_alloc_cstr(string* s) {
 	return copy;
 }
 
-size_t string_len(string* s) {
+size_t stronk_len(stronk* s) {
 	return s->length;
 }
 
-void string_reset(string* s) {
+void stronk_reset(stronk* s) {
 	s->length = 0;
 	free(s->arr.heap_ptr);
 }
