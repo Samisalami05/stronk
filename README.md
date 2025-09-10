@@ -1,5 +1,18 @@
 # Stronk
-The best string library for c
+A string library for c.
+
+## Getting started
+
+### Installation
+To install stronk on your system. Pull the repository and run the `install.sh` bash file.
+
+### Usage
+To include it in your c file, write:
+```c
+#include <stronk.h>
+```
+
+To compile it, add `-L. -lstronk` to your compile command.
 
 ## Interface
 
@@ -31,7 +44,7 @@ void stronk_deinit(stronk* s);
 
 ### stronk_add
 
-Adds a char buffer `b` with the lenght ´l´ to the string `s`.
+Adds a char buffer `b` with the lenght `l` to the string `s`.
 
 Include: `<stronk.h>`
 
@@ -44,7 +57,7 @@ void stronk_add(stronk* s, char* b, int l);
 
 ### stronk_add_cstr
 
-Adds a null terminated char buffer ´b´ to the string `s`.
+Adds a null terminated char buffer `b` to the string `s`.
 
 Include: `<stronk.h`
 
@@ -112,3 +125,31 @@ Nothing
 ```c
 void stronk_reset(stronk* s);
 ```
+
+## Example
+
+```c
+#include <stdio.h>
+#include <stronk.h>
+
+int main() {
+    // Initialize a string
+	stronk* s = stronk_init();
+
+    // Add a char buffer to the string
+	stronk_add_cstr(s, "Example string");
+
+    // Print string and length
+	printf("%s\n", stronk_get_temp_cstr(s));
+	printf("%ld\n", stronk_len(s));
+
+    // Deinitialize the string
+	stronk_deinit(s);
+}
+```
+
+## Contributing
+To contribute to strong, fork the repository and create a new branch with a fitting name. Thereafter create a pull request with your changes.
+
+## Development environment
+Stronk was developed in Ubuntu 22.04 LTS and compiled with GCC (GNU compiler collection).
