@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "stronk.h"
+#include <stronk.h>
 
 int main() {
 	stronk* s = stronk_init();
